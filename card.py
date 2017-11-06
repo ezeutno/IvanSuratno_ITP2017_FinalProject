@@ -27,15 +27,11 @@ class Card(Sprite):
         # asumming there are 52 card with an extra card for other things ('I know this is magic number')
         self.card_area = self.screen_area / 62
         self.card_ratio_w_to_h = self.card_rect.width/self.card_rect.height
-        self.card_re_rect_width = math.sqrt(self.card_ratio_w_to_h * self.card_area)
+        self.card_re_rect_width = math.ceil(math.sqrt(self.card_ratio_w_to_h * self.card_area))
+        self.card_re_rect_height = math.ceil(math.sqrt((1/self.card_ratio_w_to_h) * self.card_area))
 
-        # reduction card ratio to screen
-        self.card_red_point = self.card_re_rect_width/self.card_rect.width
-        self.card_red_width = math.ceil(self.card_rect.width * self.card_red_point)
-        self.card_red_height = math.ceil(self.card_rect.height * self.card_red_point)
-
-        # to transform and rescale
-        self.image = pygame.transform.scale(self.card, (self.card_red_width, self.card_red_height))
+        # create the trasformed scale image
+        self.image = pygame.transform.scale(self.card, (self.card_re_rect_width,self.card_re_rect_height))
         self.rect = self.image.get_rect()
 
     # return card number
@@ -49,9 +45,10 @@ class Card(Sprite):
     # refliping the card based on flip_condition
     def check_flip(self):
         if self.hint_condition:
+            # show the hinted image
             self.card = pygame.image.load('Database\\Cards\\CardCover(hint).png')
         elif self.flip_condition:
             self.card = pygame.image.load('Database\\Cards\\CardCover.png')
         else:
             self.card = pygame.image.load('Database\\Cards\\{0}of{1}.png'.format(self.card_type[0], self.card_type[1]))
-        self.image = pygame.transform.scale(self.card, (self.card_red_width, self.card_red_height))
+        self.image = pygame.transform.scale(self.card, (self.card_re_rect_width,self.card_re_rect_height))
