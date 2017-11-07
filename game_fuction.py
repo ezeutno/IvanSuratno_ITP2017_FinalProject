@@ -45,8 +45,7 @@ def reflip_card(cards):
 
 # This fuction for check the card whether the cards is the same or not
 def check_card(cards, set, sb, stats, screen, timer):
-    global temp_cards
-    global card_counter
+    global temp_cards , card_counter
     check_time(set, timer, stats)
     if card_counter == 2 and temp_cards[0].get_card_type() == temp_cards[1].get_card_type():
         stats.score += set.card_points * card_counter
@@ -60,19 +59,15 @@ def check_card(cards, set, sb, stats, screen, timer):
         temp_cards = []
         card_counter = 0
     elif card_counter == 2 and temp_cards[0].get_card_type() != temp_cards[1].get_card_type():
-        temp_cards = []
-        card_counter = 0
         time.sleep(0.3)
         reflip_card(cards)
     if len(cards) == 0:
         start_game(set, screen, stats, sb, cards, timer)
     if card_counter > 2:
-        card_counter = 0
         reflip_card(cards)
 
 # This fuction to check the card and mouse collisions
 def check_mouse_card_collisions(cards):
-    
     for card in cards:
         if card.rect.collidepoint(pygame.mouse.get_pos()):
             card.flip_condition = False
@@ -81,6 +76,9 @@ def check_mouse_card_collisions(cards):
                 flip_card(card)
             elif card in temp_cards:
                 reflip_card(cards)
+
+"""-- To Georgius, 
+thank you for helping me figuring out this problem --"""
 
 # To get the number of card in a row
 def get_number_cards_x(set, card_width):
@@ -144,12 +142,12 @@ def run_the_game(cards,stats,sb):
     for card in cards:
         y = random.randint(0,1)
         m = random.randint(0,500)
-        if len(hinted_card) != 0 :
+        if len(hinted_card) != 0 and temp_cards == 0:
             if hinted_card[0] == card:
                 flip_card(card)
                 hinted_card.remove(card)
                 break
-        elif m == 7 and stats.max_number_hint != 0 and len(temp_cards) == 0:
+        elif m == 1 and stats.max_number_hint != 0 and len(temp_cards) == 0:
             run_the_game_hint(cards,stats,sb)
             break
         elif y and card not in temp_cards and card not in all_open_cards:
@@ -193,8 +191,6 @@ def run_the_game_hint(cards,stats,sb):
                             card2.check_flip()
                             break
                     break
-                else:
-                    pass
 
 """ GAME STARTING """
 

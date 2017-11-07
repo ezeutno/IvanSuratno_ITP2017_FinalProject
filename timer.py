@@ -3,12 +3,12 @@ import pygame
 class Timer:
     def __init__(self, screen):
         self.screen = screen
-        self.screen_rect = screen.get_rect()
+        self.screen_rect = self.screen.get_rect()
         self.width = self.screen_rect.width
         self.height = self.screen_rect.height/100
         self.timer_color = (0,0,0)
 
-    #minus the
+    #minus the width
     def update_time(self,min_fr_time):
         if self.width >= 0:
             self.width -= self.screen_rect.width*min_fr_time
@@ -16,6 +16,7 @@ class Timer:
     def get_time_left(self):
         return self.width
 
+    #reset the time to back equal to the length of the screen width
     def reset_time(self):
         self.width = self.screen_rect.width
 

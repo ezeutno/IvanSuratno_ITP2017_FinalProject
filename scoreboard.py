@@ -12,7 +12,7 @@ class Scoreboard:
 
         # determine the font size
         self.font_size =int(self.card_ex.rect.height/4)
-
+        
         self.screen = screen
         self.screen_rect = self.screen.get_rect()
         self.set = set
